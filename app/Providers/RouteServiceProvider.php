@@ -60,4 +60,13 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
         });
     }
+
+    protected function mapApiAdminRoutes()
+    {
+        Route::prefix('api/v2/admin')
+            ->middleware(['api'])
+            ->namespace($this->namespace)
+            ->group(base_path('routes/api/v2/admin.php'));
+
+    }
 }

@@ -96,7 +96,7 @@ $totalCount = \Cart::session(\Illuminate\Support\Facades\Session::getId())->getT
                             </div>
                         </div>
                         <div class="header-login same-style">
-                            <a href="{{route('profile')}}"><i class="icon-user icons"></i></a>
+                            <a href="{{route('checkout')}}"><i class="icon-user icons"></i></a>
                         </div>
                         <div class="header-cart same-style">
                             <button class="icon-cart">
@@ -104,17 +104,17 @@ $totalCount = \Cart::session(\Illuminate\Support\Facades\Session::getId())->getT
                                 <span class="count-style">{{$totalCount}}</span>
                             </button>
                             <div class="shopping-cart-content">
-                                @foreach($cart as $items)
+                                @foreach($cart as $item)
                                     <ul>
                                         <li class="single-shopping-cart">
                                             <div class="shopping-cart-img">
                                                 <a href="#"><img alt=""
-                                                                 src="/storage/{{$items->attributes->image}}"></a>
+                                                                 src="/storage/{{$item->attributes->image}}"></a>
                                             </div>
                                             <div class="shopping-cart-title">
                                                 <h4><a href="#">Dog Calcium Food </a></h4>
-                                                <h6>Qty: {{$items->quantity}}</h6>
-                                                <span>${{$items->price}}</span>
+                                                <h6>Qty: {{$item->quantity}}</h6>
+                                                <span>${{$item->price}}</span>
                                             </div>
                                             <div class="shopping-cart-delete">
                                                 <a href="#"><i class="ti-close"></i></a>

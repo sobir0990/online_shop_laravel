@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 
 class ProductController extends Controller
@@ -43,6 +46,79 @@ class ProductController extends Controller
                 'cart',
                 'sum'
             ));
+    }
+
+    public function checkout()
+    {
+        $user = Auth::user();
+
+        //get card
+        $sessionId = Session::getId();
+        \Cart::session($sessionId);
+        $cart = \Cart::getContent();
+        $sum = \Cart::getTotal('price');
+        $messageSuccessOrder = \session('success');
+
+        $orders = Order::query()
+            ->where(['user_id' => $user->getAuthIdentifier()])
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $orders->transform(function ($order) {
+            $order->cart_data = unserialize($order->cart_data);
+            return $order;
+        });
+
+        if (!empty($messageSuccessOrder)) {
+            return view('pet-shop.checkout', compact(
+                'cart',
+                'sum',
+                'user',
+                'orders'
+
+            ))->with('success', $messageSuccessOrder);
+        }
+
+        return view('pet-shop.checkout', compact(
+            'cart',
+            'sum',
+            'user',
+            'orders'
+        ));
+
+    }
+
+    public function order(Request $request)
+    {
+        $user = Auth::user();
+
+        //get card
+        $sessionId = Session::getId();
+        \Cart::session($sessionId);
+        $cart = \Cart::getContent();
+        $sum = \Cart::getTotal('price');
+
+
+        Validator::make($request->all(), [
+            'phone' => 'required',
+        ])->validate();
+
+
+        $order = new Order();
+        $order->user_id = $user->id;
+        $order->cart_data = $order->setCartDataAttribute($cart);
+        $order->total_sum = $sum;
+        $order->phone = $request->phone;
+        $order->address = $request->address . ' ' . $request->city . ' ' . $request->post_code;
+        if ($order->save()) {
+            \Cart::clear();
+            Session::flash('success', 'Order created successfully');
+            return back();
+        }
+        Session::flash('error', 'Something went wrong');
+
+        return back();
+
     }
 
 

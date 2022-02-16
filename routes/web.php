@@ -48,7 +48,10 @@ Route::get('/pet-shop/about', [PetController::class, 'about'])->name('pet-shop/a
 Route::get('/pet-shop/food', [ProductController::class, 'shopList'])->name('food');
 Route::get('/add-cart', [ProductController::class, 'addCart'])->name('add-cart');
 
+Route::get('/checkout', [ProductController::class, 'checkout'])->name('checkout')->middleware('auth');
 
-Route::group(['prefix' => 'admin'], function () {
+Route::post('order', [ProductController::class, 'order'])->name('order')->middleware('auth');
+
+    Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });
