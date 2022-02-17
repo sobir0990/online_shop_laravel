@@ -17,6 +17,7 @@ class Orders extends Migration
             $table->increments('id')->index();
             $table->longText('cart_data');
             $table->float('total_sum');
+            $table->integer('product_id');
             $table->string('phone');
             $table->timestamps();
             $table->primary('id');

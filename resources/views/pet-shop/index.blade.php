@@ -112,7 +112,7 @@
                                 </div>
                             </div>
                             <div class="product-content">
-                                <h4><a href="product-details.html">{{$product->name}}</a></h4>
+                                <h4><a href="{{route('details',['id' => $product->id])}}">{{$product->name}}</a></h4>
                                 <div class="product-price">
                                     <span class="new">{{$product->price}}</span>
                                 </div>
@@ -138,7 +138,7 @@
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <div class="deal-content">
-                            <h3><a href="#">{{$product->name}}</a></h3>
+                            <h3><a href="">{{$product->name}}</a></h3>
                             <div class="deal-pro-price">
                                 <span>{{$product->price}}</span>
                             </div>

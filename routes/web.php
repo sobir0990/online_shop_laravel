@@ -41,10 +41,11 @@ Route::get('/logout', function () {
 
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile')->middleware('auth');
 
+
 Route::get('/', [ProductController::class, 'shopIndex'])->name('pet-shop/main')->name('home');
 
 Route::get('/pet-shop/about', [PetController::class, 'about'])->name('pet-shop/about');
-
+Route::get('/pet-shop/details', [ProductController::class, 'productDetails'])->name('details');
 Route::get('/pet-shop/food', [ProductController::class, 'shopList'])->name('food');
 Route::get('/add-cart', [ProductController::class, 'addCart'])->name('add-cart');
 

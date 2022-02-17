@@ -59,6 +59,7 @@ class ProductController extends Controller
         $sum = \Cart::getTotal('price');
         $messageSuccessOrder = \session('success');
 
+
         $orders = Order::query()
             ->where(['user_id' => $user->getAuthIdentifier()])
             ->orderBy('id', 'desc')
@@ -135,13 +136,31 @@ class ProductController extends Controller
             'price' => $product->price,
             'quantity' => $request->qty ?? 1,
             'attributes' => [
-                'image' => $product->image
+                'image' => $product->image,
+                'product_id' => $product->id,
             ],
         ]);
 
         $cart = \Cart::getContent();
 
         return redirect()->back();
+    }
+
+    public function productDetails(Request $request)
+    {
+
+        $product = Product::query()->where(['id' => $request->id])->first();
+
+        $user = Auth::user();
+
+        //get card
+        $sessionId = Session::getId();
+        \Cart::session($sessionId);
+        $cart = \Cart::getContent();
+        $sum = \Cart::getTotal('price');
+
+        return view('/pet-shop/product-details', compact('product', 'cart',
+            'sum'));
     }
 
 }

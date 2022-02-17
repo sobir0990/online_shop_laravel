@@ -157,6 +157,7 @@
                                                     <table class="table">
                                                         <thead>
                                                         <tr>
+                                                            <th class="width-1">Product Id</th>
                                                             <th class="width-1">Product Name</th>
                                                             <th class="width-2">Price</th>
                                                             <th class="width-3">Qty</th>
@@ -166,6 +167,11 @@
                                                         <tbody>
                                                         @foreach($order->cart_data as $cartData)
                                                         <tr>
+                                                            <td>
+                                                                <div class="o-pro-dec">
+                                                                    <p>{{$cartData->attributes->product_id}}</p>
+                                                                </div>
+                                                            </td>
                                                             <td>
                                                                 <div class="o-pro-dec">
                                                                     <p>{{$cartData['name']}}</p>
