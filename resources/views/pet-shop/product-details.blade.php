@@ -20,26 +20,26 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="product-details-img">
                         <img id="zoompro" src="/storage/{{$product->image}}"
-                             data-zoom-image="assets/img/product-details/bl1.jpg" alt="zoom"/>
+                             data-zoom-image="/storage/{{$product->image}}" alt="zoom"/>
                         <div id="gallery" class="mt-12 product-dec-slider owl-carousel">
-                            <a data-image="assets/img/product-details/l1.jpg"
-                               data-zoom-image="assets/img/product-details/bl1.jpg">
+                            <a data-image="/storage/{{$product->image}}"
+                               data-zoom-image="/storage/{{$product->image}}">
                                 <img src="/storage/{{$product->image}}" alt="">
                             </a>
-                            <a data-image="assets/img/product-details/l2.jpg"
-                               data-zoom-image="assets/img/product-details/bl2.jpg">
+                            <a data-image="/storage/{{$product->image}}"
+                               data-zoom-image="/storage/{{$product->image}}">
                                 <img src="/storage/{{$product->image}}" alt="">
                             </a>
-                            <a data-image="assets/img/product-details/l3.jpg"
-                               data-zoom-image="assets/img/product-details/bl3.jpg">
+                            <a data-image="/storage/{{$product->image}}"
+                               data-zoom-image="/storage/{{$product->image}}">
                                 <img src="/storage/{{$product->image}}" alt="">
                             </a>
-                            <a data-image="assets/img/product-details/l4.jpg"
-                               data-zoom-image="assets/img/product-details/bl4.jpg">
+                            <a data-image="/storage/{{$product->image}}"
+                               data-zoom-image="/storage/{{$product->image}}">
                                 <img src="/storage/{{$product->image}}" alt="">
                             </a>
-                            <a data-image="assets/img/product-details/l3.jpg"
-                               data-zoom-image="assets/img/product-details/bl3.jpg">
+                            <a data-image="/storage/{{$product->image}}"
+                               data-zoom-image="/storage/{{$product->image}}">
                                 <img src="/storage/{{$product->image}}" alt="">
                             </a>
                         </div>
@@ -58,7 +58,7 @@
                         </div>
                         <div class="product-price">
                             <span class="new">${{$product->price}}</span>
-{{--                            <span class="old">$50.00</span>--}}
+                            {{--                            <span class="old">$50.00</span>--}}
                         </div>
                         <div class="in-stock">
                             <span><i class="ion-android-checkbox-outline"></i> In Stock</span>
@@ -78,32 +78,31 @@
                                 <option value=""> yellow</option>
                             </select>
                         </div>
-                        <form action="{{route('add-cart', ['id' => $product->id])}}">
-                                <div class="quality-wrapper mt-30 product-quantity">
-                                    <label>Qty:</label>
-                                    <div class="cart-plus-minus">
-                                        <input class="cart-plus-minus-box" type="text" name="qty" value="2">
-                                    </div>
+                            <div class="quality-wrapper mt-30 product-quantity">
+                                <label>Qty:</label>
+                                <div class="cart-plus-minus">
+                                    <input class="cart-plus-minus-box" type="text" name="qty" id="qty" value="2">
                                 </div>
+                            </div>
 
-                            <input type="hidden" name="id" value="{{$product->id}}">
-                                <div class="product-list-action">
-                                    <div class="product-list-action-left">
-{{--                                        <a class="addtocart-btn" href="" title="Add to cart">--}}
-{{--                                            <i class="ion-bag"></i>--}}
-{{--                                            Add to cart--}}
-{{--                                        </a>--}}
-                                        <button class="order-button" type="submit"><i class="ion-bag"></i>Add to cart</button>
-                                    </div>
-
-
-                                    <div class="product-list-action-right">
-                                        <a href="#" title="Wishlist">
-                                            <i class="ti-heart" style="margin-top: 4px"></i>
-                                        </a>
-                                    </div>
+                            <input type="hidden" name="id" id="product_id" value="{{$product->id}}">
+                            <div class="product-list-action">
+                                <div class="product-list-action-left">
+                                    <a class="addtocart-btn" href="" id="cart" title="Add to cart">
+                                        <i class="ion-bag"></i>
+                                        Add to cart
+                                    </a>
+{{--                                    <button class="order-button" type="submit"><i class="ion-bag"></i>Add to cart--}}
+{{--                                    </button>--}}
                                 </div>
-                        </form>
+{{--                                <button class="btn btn-success" id="cart">Cart</button>--}}
+
+                                <div class="product-list-action-right">
+                                    <a href="#" title="Wishlist">
+                                        <i class="ti-heart" style="margin-top: 4px"></i>
+                                    </a>
+                                </div>
+                            </div>
                         <div class="social-icon mt-30">
                             <ul>
                                 <li><a href="#"><i class="icon-social-twitter"></i></a></li>
@@ -262,7 +261,7 @@
                 <div class="product-wrapper">
                     <div class="product-img">
                         <a href="product-details.html">
-                            <img src="assets/img/product/product-4.jpg" alt="">
+                            <img src="{{asset('assets/img/product/product-4.jpg')}}" alt="">
                         </a>
                         <div class="product-action">
                             <a title="Quick View" data-toggle="modal" data-target="#exampleModal" href="#">
@@ -421,7 +420,6 @@
             </div>
         </div>
     </div>
-@endsection
 
 <style>
     .order-button {
@@ -439,3 +437,31 @@
         background-color: #333;
     }
 </style>
+{{--@push('scripts')--}}
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<script>
+    let qty = $('#qty').val();
+    let id = {{$product->id}}
+    $(document).on("click", "#cart", function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: '/add-cart',
+            type: 'get',
+            data: {
+                'id': id,
+                'qty': qty
+            },
+            success: function () {
+                location.reload();
+            },
+            error: function () {
+                console.log('error');
+
+            }
+        });
+
+
+    })
+</script>
+{{--@endpush--}}
+@endsection
