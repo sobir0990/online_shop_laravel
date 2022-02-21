@@ -117,13 +117,13 @@ $totalCount = \Cart::session(\Illuminate\Support\Facades\Session::getId())->getT
                                                 <span>${{$item->price}}</span>
                                             </div>
                                             <div class="shopping-cart-delete">
-                                                <a href="#"><i class="ti-close"></i></a>
+                                                <a href=""><i class="ti-close"></i></a>
                                             </div>
                                         </li>
                                     </ul>
                                 @endforeach
                                 <div class="shopping-cart-total">
-                                    <h4>Shipping : <span>$20.00</span></h4>
+{{--                                    <h4>Shipping : <span>$20.00</span></h4>--}}
                                     <h4>Total : <span class="shop-total">${{$sum}}</span></h4>
                                 </div>
                                 <div class="shopping-cart-btn">

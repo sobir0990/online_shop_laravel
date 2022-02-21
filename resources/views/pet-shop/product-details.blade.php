@@ -78,31 +78,31 @@
                                 <option value=""> yellow</option>
                             </select>
                         </div>
-                            <div class="quality-wrapper mt-30 product-quantity">
-                                <label>Qty:</label>
-                                <div class="cart-plus-minus">
-                                    <input class="cart-plus-minus-box" type="text" name="qty" id="qty" value="2">
-                                </div>
+                        <div class="quality-wrapper mt-30 product-quantity">
+                            <label>Qty:</label>
+                            <div class="cart-plus-minus">
+                                <input class="cart-plus-minus-box" type="text" name="qty" id="qty" value="2">
                             </div>
+                        </div>
 
-                            <input type="hidden" name="id" id="product_id" value="{{$product->id}}">
-                            <div class="product-list-action">
-                                <div class="product-list-action-left">
-                                    <a class="addtocart-btn" href="" id="cart" title="Add to cart">
-                                        <i class="ion-bag"></i>
-                                        Add to cart
-                                    </a>
-{{--                                    <button class="order-button" type="submit"><i class="ion-bag"></i>Add to cart--}}
-{{--                                    </button>--}}
-                                </div>
-{{--                                <button class="btn btn-success" id="cart">Cart</button>--}}
-
-                                <div class="product-list-action-right">
-                                    <a href="#" title="Wishlist">
-                                        <i class="ti-heart" style="margin-top: 4px"></i>
-                                    </a>
-                                </div>
+                        <input type="hidden" name="id" id="product_id" value="{{$product->id}}">
+                        <div class="product-list-action">
+                            <div class="product-list-action-left">
+                                <a class="addtocart-btn" href="" id="cart" title="Add to cart">
+                                    <i class="ion-bag"></i>
+                                    Add to cart
+                                </a>
+                                {{--                                    <button class="order-button" type="submit"><i class="ion-bag"></i>Add to cart--}}
+                                {{--                                    </button>--}}
                             </div>
+                            {{--                                <button class="btn btn-success" id="cart">Cart</button>--}}
+
+                            <div class="product-list-action-right">
+                                <a href="#" title="Wishlist">
+                                    <i class="ti-heart" style="margin-top: 4px"></i>
+                                </a>
+                            </div>
+                        </div>
                         <div class="social-icon mt-30">
                             <ul>
                                 <li><a href="#"><i class="icon-social-twitter"></i></a></li>
@@ -421,47 +421,38 @@
         </div>
     </div>
 
-<style>
-    .order-button {
-        background-color: #7e4c4f;
-        color: #fff;
-        display: inline-block;
-        font-size: 14px;
-        font-weight: bold;
-        line-height: 1;
-        padding: 12px 22px;
-        text-transform: uppercase;
-    }
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+    <script>
+        let qty = $('#qty').val();
+        let id = {{$product->id}}
+        $(document).on("click", "#cart", function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: '/add-cart',
+                type: 'get',
+                data: {
+                    'id': id,
+                    'qty': qty
+                },
+                success: function () {
+                    // location.reload();
+                },
+                error: function () {
+                    console.log('error');
 
-    .order-button:hover {
-        background-color: #333;
-    }
-</style>
-{{--@push('scripts')--}}
-<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
-<script>
-    let qty = $('#qty').val();
-    let id = {{$product->id}}
-    $(document).on("click", "#cart", function (e) {
-        e.preventDefault();
-        $.ajax({
-            url: '/add-cart',
-            type: 'get',
-            data: {
-                'id': id,
-                'qty': qty
-            },
-            success: function () {
-                location.reload();
-            },
-            error: function () {
-                console.log('error');
+                }
+            });
 
-            }
+
+        })
+
+
+        $(document).on('click', '.dec', function () {
+
         });
 
+        $(document).on('click', '.inc', function () {
 
-    })
-</script>
-{{--@endpush--}}
+        });
+    </script>
 @endsection
